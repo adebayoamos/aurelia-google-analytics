@@ -130,6 +130,10 @@ System.register(['aurelia-dependency-injection', 'aurelia-event-aggregator', 'au
 					this._eventAggregator.subscribe('router:navigation:success', function (payload) {
 						return _this._trackPage(payload.instruction.fragment, payload.instruction.config.title);
 					});
+
+					this._eventAggregator.subscribe('analytics:dimension:add', function (payload) {
+						return _this._addDimension(payload.name, payload.value);
+					});
 				};
 
 				Analytics.prototype._log = function _log(level, message) {
@@ -157,8 +161,15 @@ System.register(['aurelia-dependency-injection', 'aurelia-event-aggregator', 'au
 						value: element.getAttribute('data-analytics-value')
 					};
 
-					this._log('debug', 'click: category \'' + tracking.category + '\', action \'' + tracking.action + '\', label \'' + tracking.label + '\', value \'' + tracking.value);
+					this._log('debug', 'click: category \'' + tracking.category + '\', action \'' + tracking.action + '\', label \'' + tracking.label + '\', value \'' + tracking.value + '\'');
 					ga('send', 'event', tracking.category, tracking.action, tracking.label, tracking.value);
+				};
+
+				Analytics.prototype._addDimension = function _addDimension(name, value) {
+					if (!this._dimensions) this._dimensions = {};
+
+					ga('set', name, value);
+					this._dimensions[name] = value;
 				};
 
 				Analytics.prototype._trackPage = function _trackPage(path, title) {
@@ -172,7 +183,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-event-aggregator', 'au
 						page: path,
 						title: title
 					});
-					ga('send', 'pageview');
+					ga('send', 'pageview', this._dimensions || null);
 				};
 
 				return Analytics;

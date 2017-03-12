@@ -149,6 +149,9 @@ export class Analytics {
 
 		this._eventAggregator.subscribe('router:navigation:success',
 			payload => this._trackPage(payload.instruction.fragment, payload.instruction.config.title));
+
+		this._eventAggregator.subscribe('analytics:dimension:add',
+			payload => this._addDimension(payload.name, payload.value))
 	}
 
 	_log(level, message) {
@@ -180,6 +183,13 @@ export class Analytics {
 		ga('send', 'event', tracking.category, tracking.action, tracking.label, tracking.value);
 	}
 
+	_addDimension(name, value) {
+		if (!this._dimensions) this._dimensions = {}
+
+		ga('set', name, value)
+		this._dimensions[name] = value
+	}
+
 	_trackPage(path, title) {
 		this._log('debug', `Tracking path = ${path}, title = ${title}`);
 		if (!this._initialized) {
@@ -191,6 +201,6 @@ export class Analytics {
 			page: path,
 			title: title
 		});
-		ga('send', 'pageview');
+		ga('send', 'pageview', this._dimensions || null);
 	}
 }
