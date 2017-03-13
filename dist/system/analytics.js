@@ -82,6 +82,8 @@ System.register(['aurelia-dependency-injection', 'aurelia-event-aggregator', 'au
 
 					this._trackClick = this._trackClick.bind(this);
 					this._trackPage = this._trackPage.bind(this);
+
+					this._log('options', this._options);
 				}
 
 				Analytics.prototype.attach = function attach() {
@@ -113,19 +115,11 @@ System.register(['aurelia-dependency-injection', 'aurelia-event-aggregator', 'au
 				};
 
 				Analytics.prototype._attachClickTracker = function _attachClickTracker() {
-					if (!this._options.clickTracking.enabled) {
-						return;
-					}
-
 					document.querySelector('body').addEventListener('click', delegate(this._options.clickTracking.filter, this._trackClick));
 				};
 
 				Analytics.prototype._attachPageTracker = function _attachPageTracker() {
 					var _this = this;
-
-					if (!this._options.pageTracking.enabled) {
-						return;
-					}
 
 					this._eventAggregator.subscribe('router:navigation:success', function (payload) {
 						return _this._trackPage(payload.instruction.fragment, payload.instruction.config.title);

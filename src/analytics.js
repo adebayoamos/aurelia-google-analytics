@@ -102,6 +102,8 @@ export class Analytics {
 
 		this._trackClick = this._trackClick.bind(this);
 		this._trackPage = this._trackPage.bind(this);
+
+		this._log('options', this._options)
 	}
 
 	attach(options = defaultOptions) {
@@ -134,19 +136,11 @@ export class Analytics {
 	}
 
 	_attachClickTracker() {
-		if (!this._options.clickTracking.enabled) {
-			return;
-		}
-
 		document.querySelector('body')
 			.addEventListener('click', delegate(this._options.clickTracking.filter, this._trackClick));
 	}
 
 	_attachPageTracker() {
-		if (!this._options.pageTracking.enabled) {
-			return;
-		}
-
 		this._eventAggregator.subscribe('router:navigation:success',
 			payload => this._trackPage(payload.instruction.fragment, payload.instruction.config.title));
 
