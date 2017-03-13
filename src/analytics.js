@@ -42,10 +42,10 @@ const defaultOptions = {
 		enabled: true
 	},
 	pageTracking: {
-		enabled: false
+		enabled: true
 	},
 	clickTracking: {
-		enabled: false,
+		enabled: true,
 		filter: function(element) {
 			return element instanceof HTMLElement &&
 				(element.nodeName.toLowerCase() === 'a' ||

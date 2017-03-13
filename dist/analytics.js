@@ -39,10 +39,10 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-event-aggregator', '
 			enabled: true
 		},
 		pageTracking: {
-			enabled: false
+			enabled: true
 		},
 		clickTracking: {
-			enabled: false,
+			enabled: true,
 			filter: function filter(element) {
 				return element instanceof HTMLElement && (element.nodeName.toLowerCase() === 'a' || element.nodeName.toLowerCase() === 'button');
 			}
