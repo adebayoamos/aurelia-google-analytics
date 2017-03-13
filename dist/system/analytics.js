@@ -83,7 +83,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-event-aggregator', 'au
 					this._trackClick = this._trackClick.bind(this);
 					this._trackPage = this._trackPage.bind(this);
 
-					this._log('options', this._options);
+					this._log('debug', this._options);
 				}
 
 				Analytics.prototype.attach = function attach() {
