@@ -33,6 +33,12 @@ var defaultOptions = {
 		filter: function filter(element) {
 			return element instanceof HTMLElement && (element.nodeName.toLowerCase() === 'a' || element.nodeName.toLowerCase() === 'button');
 		}
+	},
+	onChangeTracking: {
+		enabled: true,
+		filter: function filter(element) {
+			return element instanceof HTMLElement && element.nodeName.toLowerCase() === 'select';
+		}
 	}
 };
 
@@ -97,6 +103,7 @@ var Analytics = exports.Analytics = (_dec = (0, _aureliaDependencyInjection.inje
 		}
 
 		this._attachClickTracker();
+		this._attachChangeTracker();
 		this._attachPageTracker();
 	};
 
@@ -116,6 +123,10 @@ var Analytics = exports.Analytics = (_dec = (0, _aureliaDependencyInjection.inje
 
 	Analytics.prototype._attachClickTracker = function _attachClickTracker() {
 		document.querySelector('body').addEventListener('click', delegate(this._options.clickTracking.filter, this._trackClick));
+	};
+
+	Analytics.prototype._attachChangeTracker = function _attachChangeTracker() {
+		document.querySelector('body').addEventListener('change', delegate(this._options.onChangeTracking.filter, this_trackClick));
 	};
 
 	Analytics.prototype._attachPageTracker = function _attachPageTracker() {

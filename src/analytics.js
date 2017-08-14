@@ -51,6 +51,13 @@ const defaultOptions = {
 				(element.nodeName.toLowerCase() === 'a' ||
 					element.nodeName.toLowerCase() === 'button');
 		}
+	},
+	onChangeTracking: {
+		enabled: true,
+		filter: function(element) {
+			return element instanceof HTMLElement &&
+				(element.nodeName.toLowerCase() === 'select')
+		}
 	}
 };
 
@@ -115,6 +122,7 @@ export class Analytics {
 		}
 
 		this._attachClickTracker();
+		this._attachChangeTracker();
 		this._attachPageTracker();
 	}
 
@@ -140,6 +148,10 @@ export class Analytics {
 			.addEventListener('click', delegate(this._options.clickTracking.filter, this._trackClick));
 	}
 
+	_attachChangeTracker() {
+		document.querySelector('body')
+			.addEventListener('change', delegate(this._options.onChangeTracking.filter, this_trackClick));
+	}
 	_attachPageTracker() {
 		this._eventAggregator.subscribe('router:navigation:success',
 			payload => this._trackPage(payload.instruction.fragment, payload.instruction.config.title));
