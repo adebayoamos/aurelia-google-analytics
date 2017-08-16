@@ -150,7 +150,7 @@ export class Analytics {
 
 	_attachChangeTracker() {
 		document.querySelector('body')
-			.addEventListener('change', delegate(this._options.onChangeTracking.filter, this_trackClick));
+			.addEventListener('change', delegate(this._options.onChangeTracking.filter, this._trackClick));
 	}
 	_attachPageTracker() {
 		this._eventAggregator.subscribe('router:navigation:success',
