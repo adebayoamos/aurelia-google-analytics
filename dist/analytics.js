@@ -139,7 +139,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-event-aggregator', '
 		};
 
 		Analytics.prototype._attachChangeTracker = function _attachChangeTracker() {
-			document.querySelector('body').addEventListener('change', delegate(this._options.onChangeTracking.filter, this_trackClick));
+			document.querySelector('body').addEventListener('change', delegate(this._options.onChangeTracking.filter, this._trackClick));
 		};
 
 		Analytics.prototype._attachPageTracker = function _attachPageTracker() {
